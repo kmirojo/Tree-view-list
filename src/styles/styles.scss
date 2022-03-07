@@ -1,0 +1,122 @@
+body {
+  margin: 0;
+}
+
+// TreeList Component variables
+$tree-list-main-background: #F5F5F5;
+$tree-item-hover-background: #f1f1f1;
+$tree-guides-color: rgba(128,128,128,0.5);
+
+// This is the assigned height of each tree-item.
+// IMPORTANT: This value is also used in TreeList.tsx
+// in the itemHeight variable, be careful when updating it
+$tree-item-height: 24px;
+
+.tree-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-family: ArtifaktElement ,sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+
+  &__parent-node {
+      padding-left: 30px;
+
+      // Important flag is used to overwrite
+      // the other items calculated padding
+      padding-left: 27px !important;
+  }
+
+  &-container {
+      display: flex;
+      align-items: center;
+      user-select: none;
+
+      &:hover {
+          background-color: $tree-item-hover-background;
+
+          .tree-item {
+              &::after {
+                  background-color: $tree-item-hover-background;
+              }
+          }
+      }
+  }
+
+  &--expandable {
+      cursor: pointer;
+
+      .tree-item {
+          // This is a hacky trick to hide the guidelines
+          // that are overflowing the arrow icon.
+          &::after {
+              content: "";
+              position: absolute;
+              width: 20px;
+              height: 20px;
+              background-color: white;
+              z-index: 100;
+              left: -20px;
+              top: 50%;
+              transform: translateY(-50%);
+          }
+      }
+  }
+
+  &-open,
+  &-closed {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+  }
+
+  &-closed svg {
+      transform: rotate(-90deg);
+  }
+
+  &__y-guides,
+  &__guide-x {
+      position: absolute;
+      z-index: 99;
+  }
+
+  &__y-guides {
+      margin-left: -11px;
+      height: $tree-item-height;
+  }
+
+  &__guide-y {
+      position: absolute;
+      top: -14px;
+      border-left: 1px dashed $tree-guides-color;
+  }
+
+  &__guide-x {
+      border-top: 1px dashed $tree-guides-color;
+      width: 24px;
+      // This negative marging makes reference to the distance
+      // between the upper item with the caret icon
+      margin-left: -11px;
+  }
+
+  svg {
+      position: absolute;
+      left: -15px;
+      z-index: 101;
+  }
+}
+
+.tree-list {
+  // Important flag is used to overwrite
+  // the Autosizer height which coul be 0
+  &__container {
+      max-height: inherit;
+      min-height: $tree-item-height;
+      height: 100vh;
+  }
+
+  &__list-wrapper {
+      min-height: $tree-item-height;
+  }
+}
